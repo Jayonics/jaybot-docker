@@ -1,30 +1,40 @@
 import random
-
 import discord
 import os
 import time
-
-from discord import *
+import discord_slash
 from discord.ext import commands
 
+from discord_token import token
+from discord import *
+from discord.ext import *
+from discord.ext.commands import *
+from discord_slash import *
+from discord import Embed
+from discord.ext.commands import Bot, Cog
+from discord_slash import cog_ext, SlashContext
+
 intents = discord.Intents.all()
-client = discord.Client(prefix='$', intents=intents)
 
-import Gif_Ascii_Animator
+bot = Bot(command_prefix="$", intents=intents, client=client)
+slash = SlashCommand(bot)
 
 
-# bot = discord.Bot(prefix='', intents=intents)
-# bot = commands.Bot(command_prefix="$")
-
-@client.event
+@bot.event
 async def on_ready():
-	print('We have logged in as {0.user}'.format(client))
+	print('We have logged in as {0.user}'.format(bot))
 
 
-@client.event
-async def get_names(client):
+@slash.slash(name="test")
+async def test(ctx: SlashContext):
+	embed = Embed(title="Embed Test")
+	await ctx.send(embed=embed)
+
+
+@bot.event
+async def get_names(bot):
 	names = list()
-	for user in client.guild.users:
+	for user in bot.guild.users:
 		if user.game == None:
 			print(user.name + " is not playing anything")
 		else:
@@ -57,14 +67,16 @@ class BankAccount:
 		self.card_number_string = str(self.card_number)
 
 		# Split the card number into a string of 4 digit chunks
-		self.card_number_string = self.card_number_string[0:4] + ' ' + self.card_number_string[4:8] + ' ' + self.card_number_string[8:12] + ' ' + self.card_number_string[12:16]
+		self.card_number_string = self.card_number_string[0:4] + ' ' + self.card_number_string[
+																	   4:8] + ' ' + self.card_number_string[
+																					8:12] + ' ' + self.card_number_string[
+																								  12:16]
 		return str(self.card_number_string)
 
 
-
-@client.event
+@bot.event
 async def on_message(message):
-	if message.author == client.user:
+	if message.author == bot.user:
 		return
 
 	if message.content.startswith('$hello'):
@@ -106,7 +118,10 @@ async def on_message(message):
 			if member.status != discord.Status.offline and member.bot == False:
 				time.sleep(0.25)
 				bank_account = BankAccount(member.name, 0)
-				await message.channel.send('Account Owner: ' + str(bank_account.name) + '\n' + '```' + 'Account Number: ' + str(bank_account.print_card_number()) + '\n' + 'Account Balance: ' + str(bank_account.print_balance()) + '```')
+				await message.channel.send(
+					'Account Owner: ' + str(bank_account.name) + '\n' + '```' + 'Account Number: ' + str(
+						bank_account.print_card_number()) + '\n' + 'Account Balance: ' + str(
+						bank_account.print_balance()) + '```')
 		await message.channel.send('Accounts stolen!')
 		# Remove a character from the message content at the same rate until there is one character left
 		while len(starting_message.content) > 1:
@@ -118,53 +133,74 @@ async def on_message(message):
 		goingonatrip_first_message = await message.channel.send('🚗')
 		while message.content.startswith('$endtrip') == False:
 			time.sleep(speed)
-			await goingonatrip_first_message.edit(content='🚗' + '🛣' + '🛣' + '🛣' + '🛣' + '🛣' + '🛣' + '🛣' + '🛣' + '🛣')
+			await goingonatrip_first_message.edit(
+				content='🚗' + '🛣' + '🛣' + '🛣' + '🛣' + '🛣' + '🛣' + '🛣' + '🛣' + '🛣')
 			time.sleep(speed)
-			await goingonatrip_first_message.edit(content='🛣' + '🚗' + '🛣' + '🛣' + '🛣' + '🛣' + '🛣' + '🛣' + '🛣' + '🛣')
+			await goingonatrip_first_message.edit(
+				content='🛣' + '🚗' + '🛣' + '🛣' + '🛣' + '🛣' + '🛣' + '🛣' + '🛣' + '🛣')
 			time.sleep(speed)
-			await goingonatrip_first_message.edit(content='🛣' + '🚗' + '🛣' + '🛣' + '🛣' + '🛣' + '🛣' + '🛣' + '🛣' + '🛣')
+			await goingonatrip_first_message.edit(
+				content='🛣' + '🚗' + '🛣' + '🛣' + '🛣' + '🛣' + '🛣' + '🛣' + '🛣' + '🛣')
 			time.sleep(speed)
-			await goingonatrip_first_message.edit(content='🛣' + '🛣' + '🚗' + '🛣' + '🛣' + '🛣' + '🛣' + '🛣' + '🛣' + '🛣')
+			await goingonatrip_first_message.edit(
+				content='🛣' + '🛣' + '🚗' + '🛣' + '🛣' + '🛣' + '🛣' + '🛣' + '🛣' + '🛣')
 			time.sleep(speed)
-			await goingonatrip_first_message.edit(content='🛣' + '🛣' + '🛣' + '🚗' + '🛣' + '🛣' + '🛣' + '🛣' + '🛣' + '🛣')
+			await goingonatrip_first_message.edit(
+				content='🛣' + '🛣' + '🛣' + '🚗' + '🛣' + '🛣' + '🛣' + '🛣' + '🛣' + '🛣')
 			time.sleep(speed)
-			await goingonatrip_first_message.edit(content='🛣' + '🛣' + '🛣' + '🛣' + '🚗' + '🛣' + '🛣' + '🛣' + '🛣' + '🛣')
+			await goingonatrip_first_message.edit(
+				content='🛣' + '🛣' + '🛣' + '🛣' + '🚗' + '🛣' + '🛣' + '🛣' + '🛣' + '🛣')
 			time.sleep(speed)
-			await goingonatrip_first_message.edit(content='🛣' + '🛣' + '🛣' + '🛣' + '🛣' + '🚗' + '🛣' + '🛣' + '🛣' + '🛣')
+			await goingonatrip_first_message.edit(
+				content='🛣' + '🛣' + '🛣' + '🛣' + '🛣' + '🚗' + '🛣' + '🛣' + '🛣' + '🛣')
 			time.sleep(speed)
-			await goingonatrip_first_message.edit(content='🛣' + '🛣' + '🛣' + '🛣' + '🛣' + '🛣' + '🚗' + '🛣' + '🛣' + '🛣')
+			await goingonatrip_first_message.edit(
+				content='🛣' + '🛣' + '🛣' + '🛣' + '🛣' + '🛣' + '🚗' + '🛣' + '🛣' + '🛣')
 			time.sleep(speed)
-			await goingonatrip_first_message.edit(content='🛣' + '🛣' + '🛣' + '🛣' + '🛣' + '🛣' + '🛣' + '🚗' + '🛣' + '🛣')
+			await goingonatrip_first_message.edit(
+				content='🛣' + '🛣' + '🛣' + '🛣' + '🛣' + '🛣' + '🛣' + '🚗' + '🛣' + '🛣')
 			time.sleep(speed)
-			await goingonatrip_first_message.edit(content='🛣' + '🛣' + '🛣' + '🛣' + '🛣' + '🛣' + '🛣' + '🛣' + '🚗' + '🛣')
+			await goingonatrip_first_message.edit(
+				content='🛣' + '🛣' + '🛣' + '🛣' + '🛣' + '🛣' + '🛣' + '🛣' + '🚗' + '🛣')
 			time.sleep(speed)
-			await goingonatrip_first_message.edit(content='🛣' + '🛣' + '🛣' + '🛣' + '🛣' + '🛣' + '🛣' + '🛣' + '🛣' + '🚗')
+			await goingonatrip_first_message.edit(
+				content='🛣' + '🛣' + '🛣' + '🛣' + '🛣' + '🛣' + '🛣' + '🛣' + '🛣' + '🚗')
 			time.sleep(speed)
 			# Reverse the trip
-			await goingonatrip_first_message.edit(content='🛣' + '🛣' + '🛣' + '🛣' + '🛣' + '🛣' + '🛣' + '🛣' + '🛣' + '🚗')
+			await goingonatrip_first_message.edit(
+				content='🛣' + '🛣' + '🛣' + '🛣' + '🛣' + '🛣' + '🛣' + '🛣' + '🛣' + '🚗')
 			time.sleep(speed)
-			await goingonatrip_first_message.edit(content='🛣' + '🛣' + '🛣' + '🛣' + '🛣' + '🛣' + '🛣' + '🛣' + '🚗' + '🛣')
+			await goingonatrip_first_message.edit(
+				content='🛣' + '🛣' + '🛣' + '🛣' + '🛣' + '🛣' + '🛣' + '🛣' + '🚗' + '🛣')
 			time.sleep(speed)
-			await goingonatrip_first_message.edit(content='🛣' + '🛣' + '🛣' + '🛣' + '🛣' + '🛣' + '🛣' + '🚗' + '🛣' + '🛣')
+			await goingonatrip_first_message.edit(
+				content='🛣' + '🛣' + '🛣' + '🛣' + '🛣' + '🛣' + '🛣' + '🚗' + '🛣' + '🛣')
 			time.sleep(speed)
-			await goingonatrip_first_message.edit(content='🛣' + '🛣' + '🛣' + '🛣' + '🛣' + '🛣' + '🚗' + '🛣' + '🛣' + '🛣')
+			await goingonatrip_first_message.edit(
+				content='🛣' + '🛣' + '🛣' + '🛣' + '🛣' + '🛣' + '🚗' + '🛣' + '🛣' + '🛣')
 			time.sleep(speed)
-			await goingonatrip_first_message.edit(content='🛣' + '🛣' + '🛣' + '🛣' + '🛣' + '🚗' + '🛣' + '🛣' + '🛣' + '🛣')
+			await goingonatrip_first_message.edit(
+				content='🛣' + '🛣' + '🛣' + '🛣' + '🛣' + '🚗' + '🛣' + '🛣' + '🛣' + '🛣')
 			time.sleep(speed)
-			await goingonatrip_first_message.edit(content='🛣' + '🛣' + '🛣' + '🛣' + '🚗' + '🛣' + '🛣' + '🛣' + '🛣' + '🛣')
+			await goingonatrip_first_message.edit(
+				content='🛣' + '🛣' + '🛣' + '🛣' + '🚗' + '🛣' + '🛣' + '🛣' + '🛣' + '🛣')
 			time.sleep(speed)
-			await goingonatrip_first_message.edit(content='🛣' + '🛣' + '🛣' + '🚗' + '🛣' + '🛣' + '🛣' + '🛣' + '🛣' + '🛣')
+			await goingonatrip_first_message.edit(
+				content='🛣' + '🛣' + '🛣' + '🚗' + '🛣' + '🛣' + '🛣' + '🛣' + '🛣' + '🛣')
 			time.sleep(speed)
-			await goingonatrip_first_message.edit(content='🛣' + '🛣' + '🚗' + '🛣' + '🛣' + '🛣' + '🛣' + '🛣' + '🛣' + '🛣')
+			await goingonatrip_first_message.edit(
+				content='🛣' + '🛣' + '🚗' + '🛣' + '🛣' + '🛣' + '🛣' + '🛣' + '🛣' + '🛣')
 			time.sleep(speed)
-			await goingonatrip_first_message.edit(content='🛣' + '🚗' + '🛣' + '🛣' + '🛣' + '🛣' + '🛣' + '🛣' + '🛣' + '🛣')
+			await goingonatrip_first_message.edit(
+				content='🛣' + '🚗' + '🛣' + '🛣' + '🛣' + '🛣' + '🛣' + '🛣' + '🛣' + '🛣')
 			time.sleep(speed)
-			await goingonatrip_first_message.edit(content='🚗' + '🛣' + '🛣' + '🛣' + '🛣' + '🛣' + '🛣' + '🛣' + '🛣' + '🛣')
+			await goingonatrip_first_message.edit(
+				content='🚗' + '🛣' + '🛣' + '🛣' + '🛣' + '🛣' + '🛣' + '🛣' + '🛣' + '🛣')
 
 
-@client.event
+@bot.event
 async def on_member_update(before, after):
-	general_channel = client.get_channel(739058984100907904)
+	general_channel = bot.get_channel(739058984100907904)
 	if before.activities != after.activities:
 		before_name = any(activity.name for activity in before.activities)
 		after_name = any(activity.name for activity in after.activities)
@@ -178,4 +214,29 @@ async def on_member_update(before, after):
 			print(after.name + " is not playing " + before_name)
 
 
-client.run(os.getenv('TOKEN'))
+class Gamers(commands.cog):
+	def __init__(self, bot):
+		self.bot = bot
+		self._last_member = None
+
+	@commands.Cog.listener()
+	async def on_member_update(self):
+		general_channel = bot.get_channel(739058984100907904)
+		if general_channel is not None:
+			if self.activities is not None:
+				print(self.name + " is playing " + self.activites.name)
+			else:
+				print(self.name + " is not playing anything")
+
+	@commands.command()
+	async def hello(self, ctx, *, member: discord.Member = None):
+		"""Says hello"""
+		member = member or ctx.author
+		if self._last_member is None or self._last_member.id != member.id:
+			await ctx.send('Hello {0.name}~'.format(member))
+		else:
+			await ctx.send('Hello {0.name}... This feels familiar.'.format(member))
+		self._last_member = member
+
+
+bot.run(os.getenv("TOKEN"))
