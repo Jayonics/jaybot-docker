@@ -1,10 +1,11 @@
 import discord
 from discord import Client, Intents, Embed
+from discord.ext.commands import Bot
 from discord_slash import SlashCommand, SlashContext
 from discord_token import token
 
 intents = discord.Intents.all()
-bot = Client(intents=intents)
+bot = Bot(command_prefix="$", intents=intents)
 slash = SlashCommand(bot)
 
 
