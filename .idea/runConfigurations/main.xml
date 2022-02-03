@@ -1,11 +1,11 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="main" type="PythonConfigurationType" factoryName="Python" nameIsGenerated="true">
+    <output_file path="$PROJECT_DIR$/logs" is_save="true" />
     <module name="jaybot-docker" />
     <option name="INTERPRETER_OPTIONS" value="" />
     <option name="PARENT_ENVS" value="true" />
     <envs>
       <env name="PYTHONUNBUFFERED" value="1" />
-      <env name="TOKEN" value="OTM4NDMyMTcyNzIzOTI5MTU4.YfqNEQ.LpPPlLW-xNbkEzoXVbaMfWhiKhA" />
     </envs>
     <option name="SDK_HOME" value="C:\Program Files\Python310\python.exe" />
     <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
@@ -13,7 +13,7 @@
     <option name="ADD_CONTENT_ROOTS" value="true" />
     <option name="ADD_SOURCE_ROOTS" value="true" />
     <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-    <option name="SCRIPT_NAME" value="$PROJECT_DIR$/main.py" />
+    <option name="SCRIPT_NAME" value="$PROJECT_DIR$/app/main.py" />
     <option name="PARAMETERS" value="" />
     <option name="SHOW_COMMAND_LINE" value="false" />
     <option name="EMULATE_TERMINAL" value="false" />
